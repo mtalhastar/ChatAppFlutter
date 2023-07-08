@@ -6,7 +6,8 @@ import 'package:chatapp/widget/InputWidget.dart';
 import 'package:chatapp/widget/ShowMessage.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  const ChatScreen({super.key, required this.recieverid});
+  final String recieverid;
   @override
   State<ChatScreen> createState() {
     // TODO: implement createState
@@ -39,26 +40,24 @@ class _ChatScreen extends State<ChatScreen> {
               style: TextStyle(color: Color.fromARGB(255, 138, 224, 255)),
             ),
             backgroundColor: Color.fromARGB(255, 8, 1, 36),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                  },
-                  child: const Icon(
-                    Icons.logout,
-                    color: Color.fromARGB(255, 133, 210, 255),
-                  )),
-            ],
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back,),
+              color: Color.fromARGB(255, 184, 247, 255),
+              onPressed: () {
+                Navigator.pop(
+                    context); // Navigates back when the back button is pressed
+              },
+            ),
           ),
           body: Container(
               width: double.infinity,
               decoration: const BoxDecoration(
                   gradient: LinearGradient(
                       colors: [Colors.blue, Colors.deepPurpleAccent])),
-              child: const Column(
+              child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [ShowMessagePage(), InputW()]))),
+                  children: [ShowMessagePage(recieverId: widget.recieverid,), InputW(receiverId: widget.recieverid,)]))),
     );
   }
 }

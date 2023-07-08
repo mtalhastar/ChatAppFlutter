@@ -62,7 +62,7 @@ class _LoginState extends State<Login> {
         await FirebaseFirestore.instance
             .collection('users')
             .doc(usercredential.user!.uid)
-            .set({'username': username, 'email': email, 'image_url': imageurl});
+            .set({'username': username, 'email': email, 'image_url': imageurl,'uid': usercredential.user!.uid});
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {}

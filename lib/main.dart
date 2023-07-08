@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:chatapp/firebase_options.dart';
 import 'package:chatapp/screens/chatScreen.dart';
 import 'package:chatapp/screens/AddedPeople.dart';
+import 'package:chatapp/screens/usersScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,11 +27,9 @@ class App extends StatelessWidget {
         ),
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
-          
           builder: (ctx, snapshot) {
-          
             if (snapshot.hasData) {
-              return const ChatScreen();
+              return const UserScreen();
             }
             return const Login();
           },

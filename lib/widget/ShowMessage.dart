@@ -4,17 +4,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chatapp/widget/message_bubble.dart';
 
 class ShowMessagePage extends StatelessWidget {
-  const ShowMessagePage({super.key});
+  const ShowMessagePage({super.key, required this.recieverId});
+  final String recieverId;
 
   @override
   Widget build(BuildContext context) {
     final authenticatedUser = FirebaseAuth.instance.currentUser!;
+    print(authenticatedUser.uid);
+    print(recieverId);
     return Expanded(
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('chat')
-            .orderBy('createdAt', descending: true)
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection('chat').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -23,26 +23,33 @@ class ShowMessagePage extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            print('There is no data');
             return const Center(
               child: Text('No messages'),
             );
           }
           if (snapshot.hasError) {
+            print('There is error');
             return const Center(
               child: Text('No messages'),
             );
           }
 
           final messages = snapshot.data!.docs;
+          final newmessages = messages.where((message) {
+            return message.data()['participants'].contains(recieverId) &&  message.data()['participants'].contains(authenticatedUser.uid);
+          }).toList();
+        
+          print(messages);
 
           return ListView.builder(
-              itemCount: messages.length,
+              itemCount: newmessages.length,
               reverse: true,
               padding: const EdgeInsets.only(bottom: 40, left: 13, right: 13),
               itemBuilder: ((context, index) {
-                final chatMessage = messages[index].data();
-                final nextMessage = index + 1 < messages.length
-                    ? messages[index + 1].data()
+                final chatMessage = newmessages[index].data();
+                final nextMessage = index + 1 < newmessages.length
+                    ? newmessages[index + 1].data()
                     : null;
                 final currentMessageid = chatMessage['userId'];
                 final nextmessageid =

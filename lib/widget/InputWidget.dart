@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class InputW extends StatefulWidget {
-  const InputW({super.key});
+  const InputW({super.key, required this.receiverId});
+  final String receiverId;
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -14,19 +15,25 @@ class InputW extends StatefulWidget {
 
 class _InputW extends State<InputW> {
   TextEditingController textController = TextEditingController();
-  void handleButtonPress() async{
+  void handleButtonPress() async {
     String inputValue = textController.text;
     if (inputValue.trim().isEmpty) {
       return;
     }
     final user = await FirebaseAuth.instance.currentUser;
-    final userinfo = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
-      await FirebaseFirestore.instance.collection('chat').add({
+    final participants=[user!.uid,widget.receiverId];
+    final userinfo = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get();
+    await FirebaseFirestore.instance.collection('chat').add({
       'text': inputValue,
       'createdAt': Timestamp.now(),
       'userId': user.uid,
       'username': userinfo.data()!['username'],
-      'image': userinfo.data()!['image_url']
+      'image': userinfo.data()!['image_url'],
+      'recieverId': widget.receiverId,
+      'participants':participants
     });
 
     textController.clear();

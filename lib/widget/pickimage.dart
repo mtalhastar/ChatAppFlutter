@@ -24,9 +24,8 @@ class _ImagePickerSState extends State<ImagePickerS> {
     }
     setState(() {
       imagefiles = File(imagefile.path);
-       widget.addimage(imagefiles!);
+      widget.addimage(imagefiles!);
     });
-   
   }
 
   @override
@@ -34,32 +33,30 @@ class _ImagePickerSState extends State<ImagePickerS> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       alignment: Alignment.center,
-      
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 40,
-              foregroundImage: imagefiles != null ? FileImage(imagefiles!) : null,
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextButton(
-                  onPressed: pickImages,
-                  child: const Row(
-                    children: [
-                      Icon(Icons.camera),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text('add image')
-                    ],
-                  )),
-            ])
-          ],
-        ),
-    
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 40,
+            foregroundImage: imagefiles != null ? FileImage(imagefiles!) : null,
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            TextButton(
+                onPressed: pickImages,
+                child: const Row(
+                  children: [
+                    Icon(Icons.camera),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text('add image')
+                  ],
+                )),
+          ])
+        ],
+      ),
     );
   }
 }
