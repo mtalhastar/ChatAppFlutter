@@ -55,9 +55,7 @@ class _ChatScreen extends State<ChatScreen> {
                   gradient: LinearGradient(
                       colors: [Colors.blue, Colors.deepPurpleAccent])),
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [ShowMessagePage(recieverId: widget.recieverid,), InputW(receiverId: widget.recieverid,)]))),
+                  children: [Expanded(child: ShowMessagePage(recieverId: widget.recieverid,)), InputW(receiverId: widget.recieverid,)]))),
     );
   }
 }

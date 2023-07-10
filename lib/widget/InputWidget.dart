@@ -21,7 +21,7 @@ class _InputW extends State<InputW> {
       return;
     }
     final user = await FirebaseAuth.instance.currentUser;
-    final participants=[user!.uid,widget.receiverId];
+    final participants = [user!.uid, widget.receiverId];
     final userinfo = await FirebaseFirestore.instance
         .collection('users')
         .doc(user!.uid)
@@ -33,7 +33,7 @@ class _InputW extends State<InputW> {
       'username': userinfo.data()!['username'],
       'image': userinfo.data()!['image_url'],
       'recieverId': widget.receiverId,
-      'participants':participants
+      'participants': participants
     });
 
     textController.clear();
